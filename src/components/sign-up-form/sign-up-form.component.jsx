@@ -24,11 +24,18 @@ const SignUpForm = () => {
       console.log("Passwords don't match!");
       return;
     }
-    const { user } = await createAuthUserWithEmailAndPassword(email, password);
 
-    await createUserDocumentFromAuth(user, { displayName });
-
-    setFormFields(defaultFormFields);
+    try {
+      const { user } = await createAuthUserWithEmailAndPassword(email, password);
+      await createUserDocumentFromAuth(user, { displayName });
+      setFormFields(defaultFormFields);
+    } catch (error) {
+      if(error.code==='auth/email-already-in-use'){
+        alert('This email is already in use!')
+      }
+      console.log('There was an error in user creation:', error)
+    }
+    
   };
 
   const handleChange = (event) => {
