@@ -5,7 +5,9 @@ import {
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-import "./sign-up-form.styles.scss"
+import "./sign-up-form.styles.scss";
+
+
 
 const defaultFormFields = {
   displayName: "",
@@ -18,24 +20,29 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
+  
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      console.log("Passwords don't match!");
+      alert("Passwords don't match!");
       return;
     }
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(email, password);
+      const { user } = await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      
       await createUserDocumentFromAuth(user, { displayName });
       setFormFields(defaultFormFields);
     } catch (error) {
-      if(error.code==='auth/email-already-in-use'){
-        alert('This email is already in use!')
+      if (error.code === "auth/email-already-in-use") {
+        alert("This email is already in use!");
       }
-      console.log('There was an error in user creation:', error)
+      console.log("There was an error in user creation:", error);
     }
-    
   };
 
   const handleChange = (event) => {
@@ -45,7 +52,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className='sign-up-container' >
+    <div className="sign-up-container">
       <h2>Don't have an account?</h2>
       <span>Sign up with your Email and Password</span>
       <form onSubmit={handleSubmit}>
@@ -84,7 +91,7 @@ const SignUpForm = () => {
           name="confirmPassword"
           value={confirmPassword}
         />
-        <Button type="submit" buttonType='' children='Sign Up' />
+        <Button type="submit" buttonType="" children="Sign Up" />
       </form>
     </div>
   );
