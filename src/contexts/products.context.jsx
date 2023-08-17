@@ -1,15 +1,15 @@
 import { createContext, useState } from "react";
-import SHOP_DATA from "../shop-data.json";
+import PRODUCTS from "../shop-data.json";
 
 
 export const ProductsContext =  createContext({
-    existingProducts: null,
+    Products: null,
     setExistingData: ()=>null
 });
 
 export const ProductsProvider = ({children}) => {
-    const [existingProducts, setExistingData] = useState(SHOP_DATA);
-    const value = {existingProducts, setExistingData};
+    const [Products, setExistingData] = useState(PRODUCTS);
+    const value = {Products, setExistingData};
 
 
     return <ProductsContext.Provider value={value} >{children}</ProductsContext.Provider>

@@ -4,11 +4,11 @@ import ProductCard from "../../components/product-card/product-card.component";
 import "./shop.styles.scss"
 
 const Shop = () => {
-  const { existingProducts } = useContext(ProductsContext);
+  const { Products } = useContext(ProductsContext);
 
   return (
     <div className="products-container" >
-      {existingProducts.map((product) => (
+      {Products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
