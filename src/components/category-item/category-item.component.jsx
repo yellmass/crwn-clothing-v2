@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import './category-item.styles.jsx';
-import { useContext } from 'react';
-import { CategoriesContext } from '../../contexts/categories.context';
+import { useSelector } from 'react-redux';
+
+
+import { selectCategoriesMap } from '../../store/categories/category.selector.js';
 import { CategoryContainer, BackgroundImage, Body } from './category-item.styles';
 
 
 
-const CategoryItem = ({ category }) => {
-  const { categoriesMap } = useContext(CategoriesContext); 
+
+const CategoryItem = ({ category }) => { 
+ 
+  const categoriesMap = useSelector(selectCategoriesMap);
   const { imageUrl, title } = category;
   const navigate = useNavigate();
   const navigateHandler = () => {
@@ -15,7 +19,7 @@ const CategoryItem = ({ category }) => {
   }
   return (
     <CategoryContainer onClick={navigateHandler} >
-      <BackgroundImage imgUrl = {imageUrl} />
+      <BackgroundImage imageUrl = {imageUrl} />
       <Body>
         <h2>{title}</h2>
         <p>Shop Now</p>

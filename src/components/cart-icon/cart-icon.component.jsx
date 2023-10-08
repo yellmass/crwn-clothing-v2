@@ -5,7 +5,7 @@ import { CartContext } from "../../contexts/cart.context";
 
 
 const CartIcon = () => {
-  const { isCartOpen, setIsCartOpen, cartItems } = useContext(CartContext);
+  const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext);
   
 
   const toggleIsCartOpen = () => {
@@ -15,7 +15,7 @@ const CartIcon = () => {
   return (
     <CartIconContainer onClick={toggleIsCartOpen}>
       <ShoppingIcon />
-      <ItemCount> {cartItems.reduce((partialSum, cartItem)=> partialSum + cartItem.quantity, 0)} </ItemCount>
+      <ItemCount> {cartCount} </ItemCount>
     </CartIconContainer>
   );
 };

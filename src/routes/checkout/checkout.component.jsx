@@ -6,7 +6,7 @@ import CheckoutHeader from "../../components/checkout-header.component.jsx/check
 
 
 const Checkout = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, cartTotal } = useContext(CartContext);
 
   return (
     <div>
@@ -16,7 +16,7 @@ const Checkout = () => {
         {cartItems.map((item) => (
           <CheckoutItem key={item.id} checkoutItem={item} />
         ))}
-        <span className='total' >TOTAL: $ {cartItems.reduce((checkoutSum, cartItem)=> checkoutSum + (cartItem.price*cartItem.quantity), 0)} </span>
+        <span className='total' >TOTAL: $ {cartTotal} </span>
       </div>
     </div>
   );
