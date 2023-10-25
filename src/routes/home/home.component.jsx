@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+
 import Directory from "../../components/directory/directory.component";
+import { Spinner } from "../../components/spinner/spinner.component";
+import { selectCategoriesIsLoading } from "../../store/categories/category.selector";
 
 const Home = () => {
     const categories = [
@@ -28,8 +32,15 @@ const Home = () => {
         imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
       },
     ];
-  
-    return <Directory categories={categories} />;
+    
+    const isLoading = useSelector(selectCategoriesIsLoading);
+
+    return (
+      <div>
+        {isLoading ? <Spinner /> : (<Directory categories={categories} />)}
+      </div>
+      
+      );
   };
   
   export default Home;

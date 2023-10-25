@@ -1,9 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getCategoriesAndDocuments } from "./utils/firebase/firebase.utils";
 
-import { setCategories } from "./store/categories/category.action";
+import { fetchCategoriesAsync } from "./store/categories/category.action";
 import { setCurrentUser } from "./store/user/user.action";
 import {
   createUserDocumentFromAuth,
@@ -15,6 +14,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import Categories from "./routes/categories/categories.component";
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,14 +28,9 @@ const App = () => {
     return unsubscribe;
   }, [dispatch]);
 
-  useEffect(()=>{
-    const getCategories = async () => {
-        const categoriesArray = await getCategoriesAndDocuments('categories');
-        dispatch(setCategories(categoriesArray));
-    }
-
-    getCategories();
-}, [dispatch])
+  useEffect(() => {
+    dispatch(fetchCategoriesAsync());
+  }, [dispatch]);
 
   return (
     <Routes>
