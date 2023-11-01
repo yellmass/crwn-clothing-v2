@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 import { PaymentButton } from "./payment-form.styles";
-import  { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { selectCartTotal } from "../../store/cart/cart.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
 
 import { PaymentFormContainer, FormContainer } from "./payment-form.styles";
-
 
 const PaymentForm = () => {
   const stripe = useStripe();
@@ -44,7 +43,7 @@ const PaymentForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: currentUser ? currentUser : 'Guest',
+          name: currentUser ? currentUser.displayName : "Guest",
         },
       },
     });
@@ -52,10 +51,10 @@ const PaymentForm = () => {
     setIsPaymentLoading(false);
 
     if (paymentResult.error) {
-    console.log(paymentResult.error);
+      alert(paymentResult.error.message);
     } else {
       if (paymentResult.paymentIntent.status === "succeeded") {
-        console.log("Payment Successful");
+        alert("Payment Successful");
       }
     }
   };
@@ -65,7 +64,11 @@ const PaymentForm = () => {
       <FormContainer onSubmit={paymentHandler}>
         <h2>Credit Card Payment: </h2>
         <CardElement />
-        <PaymentButton isLoading={isPaymentLoading} children=' Pay Now ' buttonType={BUTTON_TYPE_CLASSES.inverted} />
+        <PaymentButton
+          isLoading={isPaymentLoading}
+          children=" Pay Now "
+          buttonType={BUTTON_TYPE_CLASSES.inverted}
+        />
       </FormContainer>
     </PaymentFormContainer>
   );
