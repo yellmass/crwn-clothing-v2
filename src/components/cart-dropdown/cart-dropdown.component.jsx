@@ -11,8 +11,7 @@ import { selectCartItems } from "../../store/cart/cart.selector.js";
 const CartDropdown = () => {
   // const { cartItems } = useContext(CartContext);
 
-  const cartItems = useSelector(selectCartItems);
-
+  const cartItems = useSelector(selectCartItems)
   const navigate = useNavigate();
   const goToCheckoutHandler = () => {
     navigate('/checkout');

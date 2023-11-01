@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { getCategoriesAndDocuments } from "./utils/firebase/firebase.utils";
 
-import { fetchCategoriesAsync } from "./store/categories/category.action";
-import { setCurrentUser } from "./store/user/user.action";
+import { setCurrentUser } from "./store/user/user.slice";
 import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
@@ -14,6 +14,7 @@ import Authentication from "./routes/authentication/authentication.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import Categories from "./routes/categories/categories.component";
+import { setCategories } from "./store/categories/category.slice";
 
 
 const App = () => {
@@ -22,14 +23,20 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       user && createUserDocumentFromAuth(user);
-      dispatch(setCurrentUser(user));
+      const fetchedUser = user && (({accessToken, email})=>({accessToken, email}))(user)
+      dispatch(setCurrentUser(fetchedUser));
     });
 
     return unsubscribe;
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCategoriesAsync());
+    const getCategoriesAsync = async() => {
+      const categoriesArray = await getCategoriesAndDocuments('categories');
+      dispatch(setCategories(categoriesArray));
+    }
+    getCategoriesAsync();
+    
   }, [dispatch]);
 
   return (
