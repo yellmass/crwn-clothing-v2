@@ -23,8 +23,8 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       user && createUserDocumentFromAuth(user);
-      const fetchedUser = user && (({accessToken, email})=>({accessToken, email}))(user)
-      dispatch(setCurrentUser(fetchedUser));
+      // const fetchedUser = user && (({accessToken, email})=>({accessToken, email}))(user)
+      dispatch(setCurrentUser(user));
     });
 
     return unsubscribe;

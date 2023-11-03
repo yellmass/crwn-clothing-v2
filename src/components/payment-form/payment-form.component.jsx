@@ -14,6 +14,7 @@ const PaymentForm = () => {
   const elements = useElements();
   const amount = useSelector(selectCartTotal);
   const currentUser = useSelector(selectCurrentUser);
+  console.log(currentUser);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const paymentHandler = async (e) => {
@@ -43,7 +44,8 @@ const PaymentForm = () => {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: currentUser ? currentUser.displayName : "Guest",
+          name: currentUser ? currentUser.email : "Guest",
+          
         },
       },
     });

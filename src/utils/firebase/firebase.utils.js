@@ -66,6 +66,17 @@ export const getCategoriesAndDocuments = async () => {
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
+export const getCurrentUserFromFireStore = async() => {
+  const collectionRef = collection(db, "users");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDoc(q);
+
+  console.log(querySnapshot.data());
+
+  return querySnapshot.data();
+}
+
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
@@ -92,8 +103,8 @@ export const createUserDocumentFromAuth = async (
       console.log("error creating the user", error.message);
     }
   }
-
-  return userDocRef;
+  // console.log(userSnapshot.data());
+  return userSnapshot.data();
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
