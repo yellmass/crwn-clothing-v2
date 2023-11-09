@@ -66,16 +66,16 @@ export const getCategoriesAndDocuments = async () => {
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
-export const getCurrentUserFromFireStore = async() => {
-  const collectionRef = collection(db, "users");
-  const q = query(collectionRef);
+// export const getCurrentUserFromFireStore = async() => {
+//   const collectionRef = collection(db, "users");
+//   const q = query(collectionRef);
 
-  const querySnapshot = await getDoc(q);
+//   const querySnapshot = await getDoc(q);
 
-  console.log(querySnapshot.data());
+//   console.log(querySnapshot.data());
 
-  return querySnapshot.data();
-}
+//   return querySnapshot.data();
+// }
 
 export const createUserDocumentFromAuth = async (
   userAuth,
