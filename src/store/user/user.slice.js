@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const USER_INITIAL_STATE = {
     currentUser: null,
+    isUserMenuOpen: false,
   };
 
 
@@ -12,11 +13,14 @@ export const userSlice = createSlice({
   reducers: {
     setCurrentUser(state, action) {
       state.currentUser = action.payload;
-    }
+    },
+    setIsUserMenuOpen(state, action){
+      state.isUserMenuOpen = action.payload;
+    },
   }
 });
 
-export const { setCurrentUser } = userSlice.actions;
+export const { setCurrentUser, setIsUserMenuOpen } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
 

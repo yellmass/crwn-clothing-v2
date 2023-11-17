@@ -1,30 +1,47 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { ButtonSpinner } from "../button/button.styles";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
 import { signInAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
-import { useState } from "react";
-import "./sign-in-form.styles.scss";
 import { signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
+
+import "./sign-in-form.styles.scss";
+
+
 
 const defaultFormFields = {
   email: "",
   password: "",
 };
 
+
+
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const signInWithGoogle = async () => {
+    setLoading(true);
     await signInWithGooglePopup();
+    setLoading(false);
+    navigate("/");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+      setLoading(true);
       await signInAuthWithEmailAndPassword(email, password);
 
       setFormFields(defaultFormFields);
+      
+      navigate("/"); 
+      
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -38,6 +55,8 @@ const SignInForm = () => {
           console.log(error);
           break;
       }
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
   };
 
@@ -69,11 +88,11 @@ const SignInForm = () => {
           value={password}
         />
         <div className="buttons-container">
-          <Button type="submit" buttonType="" children="Sign In" />
+          <Button type="submit" buttonType="" children={loading ? <ButtonSpinner/> : "Sign In"} />
           <Button
             type="button"
             buttonType="google"
-            children="Sign In with Google"
+            children={loading ? <ButtonSpinner/> : "Sign In with Google"}
             onClick={signInWithGoogle}
           />
         </div>
