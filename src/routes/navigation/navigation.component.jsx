@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import { selectCurrentUser, selectIsUserMenuOpen } from "../../store/user/user.selector";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import './navigation.styles.jsx';
-import { signOutUser } from "../../utils/firebase/firebase.utils"; /// to be added to user menu dropdown
+// import { signOutUser } from "../../utils/firebase/firebase.utils"; /// to be added to user menu dropdown
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 // import { CartContext } from "../../contexts/cart.context";
@@ -24,8 +24,18 @@ const Navigation = () => {
   const isUserMenuOpen = useSelector(selectIsUserMenuOpen);
   // const {isCartOpen} = useContext(CartContext);
   const isCartOpen = useSelector(selectIsCartOpen);
+  const OpenUserMenu = () => dispatch(setIsUserMenuOpen(true));
+  // const CloseUserMenu = () => dispatch(setIsUserMenuOpen()); // set it off when its both outside of user navlink and user dropdown
+
+  const atIndex = currentUser && currentUser.email.indexOf("@");
+  const userName = currentUser && currentUser.email.substring(0,atIndex);
+
+  useEffect(()=>{
+    if(currentUser==null){
+      dispatch(setIsUserMenuOpen(false));
+    }
+  }, [ dispatch ,currentUser])
   
-  const toggleUserMenu = () => dispatch(setIsUserMenuOpen(!isUserMenuOpen));
 
   return (
     <Fragment>
@@ -38,13 +48,13 @@ const Navigation = () => {
                 SHOP
             </Navlink>
             {
-              currentUser ? (<Navlink as='span' onClick={toggleUserMenu} >{currentUser.email.charAt(0).toUpperCase()}</Navlink>) : (<Navlink to='authentication' >
+              currentUser ? (<Navlink className="user-navlink" as='span' onMouseEnter={OpenUserMenu} >{userName.toUpperCase()}</Navlink>) : (<Navlink to='authentication' >
                 SIGN IN
             </Navlink>)
             }
             <CartIcon />
         </NavLinks>
-        {isUserMenuOpen && <UserDropdown/>}
+        {isUserMenuOpen && <UserDropdown  />}
         {isCartOpen && <CartDropdown />}
       </NavigationContainer>
       <Outlet />

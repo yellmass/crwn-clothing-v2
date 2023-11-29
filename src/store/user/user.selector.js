@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-import { userReducer } from "./user.slice";
 
 export const selectUserReducer = (state) => state.user;
 

@@ -14,7 +14,6 @@ const PaymentForm = () => {
   const elements = useElements();
   const amount = useSelector(selectCartTotal);
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const paymentHandler = async (e) => {
@@ -38,7 +37,7 @@ const PaymentForm = () => {
       paymentIntent: { client_secret },
     } = response;
 
-    console.log(client_secret);
+    // console.log(client_secret);
 
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {

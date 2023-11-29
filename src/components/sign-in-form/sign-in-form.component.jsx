@@ -22,12 +22,13 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
   const [loading, setLoading] = useState(false);
+  const [googleLooding, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
 
   const signInWithGoogle = async () => {
-    setLoading(true);
+    setGoogleLoading(true);
     await signInWithGooglePopup();
-    setLoading(false);
+    setGoogleLoading(false);
     navigate("/");
   };
 
@@ -92,7 +93,7 @@ const SignInForm = () => {
           <Button
             type="button"
             buttonType="google"
-            children={loading ? <ButtonSpinner/> : "Sign In with Google"}
+            children={googleLooding ? <ButtonSpinner/> : "Sign In with Google"}
             onClick={signInWithGoogle}
           />
         </div>
